@@ -1,0 +1,301 @@
+* {
+  font-family: "Noto Sans TC", sans-serif;
+}
+body {
+  margin: 0;
+}
+#app {
+  position: relative;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+.boxs {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.box {
+  /*background-color: rgb(243, 159, 62);*/
+  /*padding-bottom: 77%;*/
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: inline-block;
+}
+.boxFrame {
+  position: absolute;
+}
+.map {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  background-image: url("../img/Campas.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 0;
+  flex: 1;
+}
+.map .mapBox {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.title {
+  font-size: 1.6rem;
+  height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  letter-spacing: 0.25em;
+  height: 2.6rem;
+  padding: 0 0.5em;
+  border-bottom: 1px solid #d4d4d4;
+}
+.subTitle {
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #557c90;
+  color: white;
+  height: 2.6rem;
+  letter-spacing: 0.15em;
+}
+.subBox {
+  font-size: 1rem;
+  background-color: #ececec;
+}
+.tableBox {
+  overflow: auto;
+  /*max-height: 70%;*/
+  flex: 1;
+  background-color: #e0e5e6;
+}
+.tableBox .table {
+  font-size: 1rem;
+}
+.tableBox .table td {
+  border-color: #c0c8cc;
+}
+.tableBox .table thead th {
+  background-color: #858b8e;
+  color: white;
+  letter-spacing: 0.2em;
+}
+.tableBox .table tbody tr {
+  /*border-color: #b9cdec;*/
+}
+.tableBox .table tbody td {
+  font-weight: bold;
+}
+.bottomText {
+  font-size: 0.8rem;
+  height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #565656;
+  color: #929292;
+}
+/*地圖上的點*/
+.point {
+  position: absolute;
+  display: block;
+  width: 0px;
+  height: 0px;
+}
+.point .pointCircle {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 30px;
+  height: 30px;
+  left: -15px;
+  top: -15px;
+  /*background-color: brown;*/
+  /*border-radius: 10px;*/
+  background-size: contain;
+  background-position: center;
+  cursor: pointer;
+}
+.point.active .pointCircle::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  border-radius: 40px;
+  /*background-color: rgba(255, 255, 255, 0.5);*/
+  animation: a_enlarge 0.5s infinite;
+  background-image: radial-gradient(ellipse at center, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.5) 100%);
+}
+
+@keyframes a_enlarge {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+#air .point .pointCircle {
+  background-image: url(../img/airPoint.png);
+}
+
+/*擴充特殊圖案*/
+#air .point.inside .pointCircle {
+  background-image: url(../img/airPointInside.png);
+}
+#air .point.inside.active .pointCircle {
+  /*background-image: url(../img/airPointInsideFocus.gif);*/
+}
+
+#water .point .pointCircle {
+  background-image: url(../img/waterPoint.png);
+}
+#noise .point .pointCircle {
+  background-image: url(../img/noisePoint.png);
+}
+#ele .point .pointCircle {
+  background-image: url(../img/elePoint.png);
+}
+.chart {
+  background-color: #4b5d67;
+}
+.videoBox {
+  position: fixed;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  background-color: rgb(0, 0, 0);
+}
+.videoBox .video {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+.closeBtn {
+  position: absolute;
+  display: block;
+  right: 10px;
+  top: 10px;
+  background-color: #ffffff;
+  cursor: pointer;
+  background-image: url(../img/close.png);
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+}
+.closeBtn:hover {
+  background-color: #e2e2e2;
+}
+.comfortInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+.comfortInfo .infoText {
+}
+.comfortInfo .comfort {
+  border: 1px solid #909090;
+  border-radius: 5px;
+}
+.comfortInfo .comfort .comfortBox {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.comfortInfo .comfort .comfortBox .text {
+  display: block;
+  font-size: 1rem;
+}
+.comfortInfo .comfort .comfortBox .icon {
+  display: block;
+  height: 1.2rem;
+}
+.aqiInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+.comfortInfo .infoText {
+}
+.subBox .qrImg {
+  width: 50px;
+  cursor: pointer;
+}
+
+.qrBox {
+  position: fixed;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.qrBox .qr {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.qrBox .qr .qrImg {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 1rem;
+    height: 2rem;
+  }
+  .subTitle {
+    font-size: 0.8rem;
+    height: 2rem;
+  }
+  .tableBox .table {
+    font-size: 0.6rem;
+  }
+  .subBox {
+    font-size: 0.7rem;
+  }
+  .comfortInfo .comfort .comfortBox .text {
+    font-size: 0.7rem;
+  }
+  .boxs {
+    overflow: auto;
+  }
+  .box {
+    padding-bottom: 77%;
+    height: auto;
+  }
+}

@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>大仁科大DEAN</title>
+    <script src="./lib/jquery-3.0.0.min.js"></script>
+    <script src="./lib/v-switch.min.js"></script>
+    <script src="./lib/vue.js"></script>
+    <script src="./lib/highcharts.js"></script>
+    <script src="./lib/highcharts-vue.min.js"></script>
+    <script src="./lib/axios.min.js"></script>
+
+    <script src="./js/funs.js"></script>
+    <script src="./js/index.js"></script>
+
+    <link href="https://fonts.googleapis.com/earlyaccess/notosanstc.css" rel="stylesheet" />
+    <link href="./lib/bootstrap.min.css" rel="stylesheet" />
+    <link href="./css/index.css" rel="stylesheet" />
+
+    <template type="text/x-template" id="box-component">
+      <div class="box">
+        <div class="boxFrame row w-100 h-100 p-0 m-0">
+          <div class="col-6 col-md-8 d-flex flex-column p-0">
+            <div class="d-flex">
+              <div class="title flex-fill">{{title}}</div>
+            </div>
+            <div class="map">
+              <div class="mapBox">
+                <div
+                  v-for="(item,index) in list"
+                  class="point"
+                  :class="Object.assign({active:index===currentIndex},classToObject(item.class))"
+                  @click="point_click(index,item)"
+                  :style="{left:item.pos[0],top:item.pos[1]}"
+                >
+                  <div class="pointCircle"></div>
+                </div>
+              </div>
+            </div>
+            <highcharts class="chart" :options="chartOptions"></highcharts>
+          </div>
+          <div class="col-6 col-md-4 d-flex flex-column h-100 p-0">
+            <div class="subTitle">{{whereText}}</div>
+            <slot name="subbox" :id="id"></slot>
+            <div class="tableBox">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col p-0">項目</th>
+                    <th scope="col p-0">測值</th>
+                    <th scope="col p-0">單位</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item,key) in dataShow">
+                    <td>{{item.par}}</td>
+                    <td>{{item.val}}</td>
+                    <td>{{item.unit}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="bottomText">
+              <div>時間: {{dataDateTime}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </head>
+  <body>
+    <div id="app" @mousemove="app_mousemove">
+      <div class="boxs">
+        <div class="row h-100 p-0 m-0">
+          <div class="col-12 col-md-6 p-0">
+            <box-component :title="airData.title" :list="airData.list" :real-data="realData" :hour-data="hourData" id="air">
+              <template v-slot:subbox="subbox">
+                <div class="subBox p-2">
+                  <div v-if="realData[subbox.id]" class="comfortInfo">
+                    <div class="p-2 infoText"><span>舒適度指數：</span><span>{{calcComfort(realData[subbox.id].vals[0],realData[subbox.id].vals[1],{})}}</span></div>
+                    <div class="comfort p-2" v-switch="calcComfortType(calcComfort(realData[subbox.id].vals[0],realData[subbox.id].vals[1],{}))">
+                      <div class="comfortBox" v-case="0"><span class="text mr-2">寒冷</span><img class="icon" src="./img/airPoint_cold.png" /></div>
+                      <div class="comfortBox" v-case="1"><span class="text mr-2">舒適</span><img class="icon" src="./img/airPoint_good.png" /></div>
+                      <div class="comfortBox" v-case="2"><span class="text mr-2">炎熱</span><img class="icon" src="./img/airPoint_hot.png" /></div>
+                    </div>
+                  </div>
+                  <div v-if="aqiData[subbox.id]" class="aqiInfo">
+                    <div class="infoText">
+                      <span> {{aqiData[subbox.id].aqimax}}：</span>
+                      <span>{{aqiData[subbox.id][aqiData[subbox.id].aqimax].val.toFixed(2)}}</span>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </box-component>
+          </div>
+          <div class="col-12 col-md-6 p-0">
+            <box-component :title="waterData.title" :list="waterData.list" :real-data="realData" :hour-data="hourData" id="water"></box-component>
+          </div>
+          <div class="col-12 col-md-6 p-0">
+            <box-component :title="noiseData.title" :list="noiseData.list" :real-data="realData" :hour-data="hourData" id="noise">
+              <template v-slot:subbox="subbox">
+                <div class="subBox p-2">
+                  <img class="qrImg" src="./img/dean-qr.png" @click="qrImg_click" />
+                </div>
+              </template>
+            </box-component>
+          </div>
+          <div class="col-12 col-md-6 p-0">
+            <box-component :title="eleData.title" :list="eleData.list" :real-data="realData" :hour-data="hourData" id="ele"></box-component>
+          </div>
+        </div>
+      </div>
+      <div class="qrBox" v-show="qrShow">
+        <div class="qr">
+          <img class="qrImg" src="./img/dean-qr.png" @click="qrImg_click" />
+        </div>
+        <div class="closeBtn" @click="qr_closeBtn_click"></div>
+      </div>
+      <div class="videoBox" v-show="videoShow">
+        <video class="video" controls="controls" muted loop ref="video">
+          <source src="./videos/看見大仁科技大學空拍之美.mp4" type="video/mp4" />
+        </video>
+        <div class="closeBtn" @click="video_closeBtn_click"></div>
+      </div>
+    </div>
+  </body>
+</html>
