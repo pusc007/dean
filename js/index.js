@@ -409,10 +409,10 @@ var loadFun = function () {
       },
       updateData: function () {
         var self = this;
-        getReal("http://www.jsene.com/demo/tjapi/getvalue/tajengetvalue/real").then(function (data) {
+        getReal("https://www.jsene.com/demo/tjapi/getvalue/tajengetvalue/real").then(function (data) {
           self.realData = data;
         });
-        getHour("http://www.jsene.com/demo/tjapi/getvalue/tajengetvalue/hour?st=").then(function (data) {
+        getHour("https://www.jsene.com/demo/tjapi/getvalue/tajengetvalue/hour?st=").then(function (data) {
           self.airData.list.forEach((el) => {
             var id = el.id;
             var value = [];
