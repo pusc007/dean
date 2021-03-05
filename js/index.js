@@ -384,7 +384,11 @@ var loadFun = function () {
       }, 60000);
       this.resetVideoTimeID();
     },
+    computed: {},
     methods: {
+      getAQI: function (obj) {
+        return obj[obj.aqimax].aqi;
+      },
       app_mousemove: function () {
         if (!this.videoShow) {
           this.resetVideoTimeID();

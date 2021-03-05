@@ -212,38 +212,65 @@ body {
 .closeBtn:hover {
   background-color: #e2e2e2;
 }
-.comfortInfo {
+.comfort {
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  border-bottom: 1px solid #c1c1c1;
 }
-.comfortInfo .infoText {
+.comfort .infoText {
 }
-.comfortInfo .comfort {
+.comfort .comfortStatusBox {
   border: 1px solid #909090;
   border-radius: 5px;
 }
-.comfortInfo .comfort .comfortBox {
+.comfort .comfortStatusBox .comfortStatus {
   display: flex;
   align-items: center;
   white-space: nowrap;
 }
-.comfortInfo .comfort .comfortBox .text {
+.comfort .comfortStatusBox .comfortStatus .text {
   display: block;
   font-size: 1rem;
 }
-.comfortInfo .comfort .comfortBox .icon {
+.comfort .comfortStatusBox .comfortStatus .icon {
   display: block;
   height: 1.2rem;
 }
-.aqiInfo {
+.comfort .infoText {
+}
+
+.aqi {
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  border-bottom: 1px solid #c1c1c1;
 }
-.comfortInfo .infoText {
+.aqi .aqiData {
+  border-radius: 0.25rem;
+}
+.aqi .aqiData.color0 {
+  background-color: #18a274;
+}
+.aqi .aqiData.color1 {
+  background-color: #fee046;
+}
+.aqi .aqiData.color2 {
+  background-color: #fea246;
+}
+.aqi .aqiData.color3 {
+  background-color: #d01947;
+}
+.aqi .aqiData.color4 {
+  background-color: #7418a2;
+}
+.aqi .aqiData.color5 {
+  background-color: #8b1620;
+}
+.aqi .aqiStatusValue {
+  font-size: 1.5rem;
 }
 .subBox .qrImg {
   width: 50px;
@@ -288,7 +315,7 @@ body {
   .subBox {
     font-size: 0.7rem;
   }
-  .comfortInfo .comfort .comfortBox .text {
+  .comfort .comfortStatusBox .comfortStatus .text {
     font-size: 0.7rem;
   }
   .boxs {

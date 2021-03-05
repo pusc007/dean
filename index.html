@@ -76,19 +76,32 @@
           <div class="col-12 col-md-6 p-0">
             <box-component :title="airData.title" :list="airData.list" :real-data="realData" :hour-data="hourData" id="air">
               <template v-slot:subbox="subbox">
-                <div class="subBox p-2">
-                  <div v-if="realData[subbox.id]" class="comfortInfo">
+                <div class="subBox">
+                  <div v-if="realData[subbox.id]" class="comfort p-2">
                     <div class="p-2 infoText"><span>舒適度指數：</span><span>{{calcComfort(realData[subbox.id].vals[0],realData[subbox.id].vals[1],{})}}</span></div>
-                    <div class="comfort p-2" v-switch="calcComfortType(calcComfort(realData[subbox.id].vals[0],realData[subbox.id].vals[1],{}))">
-                      <div class="comfortBox" v-case="0"><span class="text mr-2">寒冷</span><img class="icon" src="./img/airPoint_cold.png" /></div>
-                      <div class="comfortBox" v-case="1"><span class="text mr-2">舒適</span><img class="icon" src="./img/airPoint_good.png" /></div>
-                      <div class="comfortBox" v-case="2"><span class="text mr-2">炎熱</span><img class="icon" src="./img/airPoint_hot.png" /></div>
+                    <div class="comfortStatusBox p-2" v-switch="calcComfortType(calcComfort(realData[subbox.id].vals[0],realData[subbox.id].vals[1],{}))">
+                      <div class="comfortStatus" v-case="0"><span class="text mr-2">寒冷</span><img class="icon" src="./img/airPoint_cold.png" /></div>
+                      <div class="comfortStatus" v-case="1"><span class="text mr-2">舒適</span><img class="icon" src="./img/airPoint_good.png" /></div>
+                      <div class="comfortStatus" v-case="2"><span class="text mr-2">炎熱</span><img class="icon" src="./img/airPoint_hot.png" /></div>
                     </div>
                   </div>
-                  <div v-if="aqiData[subbox.id]" class="aqiInfo">
-                    <div class="infoText">
-                      <span> {{aqiData[subbox.id].aqimax}}：</span>
-                      <span>{{aqiData[subbox.id][aqiData[subbox.id].aqimax].val.toFixed(2)}}</span>
+                  <div v-if="aqiData[subbox.id]" class="aqi p-2">
+                    <div class="infoText d-flex flex-column align-items-center w-100">
+                      <div>AQI：</div>
+                      <div class="d-flex w-100 mt-2 align-items-center justify-content-center aqiData" :class="['color'+getAQI(aqiData[subbox.id]).startIndex]">
+                        <div class="p-1">{{aqiData[subbox.id].aqimax}}</div>
+                        <div class="aqiStatusBox d-flex align-items-center p-1">
+                          <span class="aqiStatusValue">{{getAQI(aqiData[subbox.id]).val.toFixed(2)}}</span>
+                          <div class="aqiStatusText ml-2" v-switch="getAQI(aqiData[subbox.id]).startIndex">
+                            <div v-case="0">優</div>
+                            <div v-case="1">良</div>
+                            <div v-case="2">輕度汙染</div>
+                            <div v-case="3">中度汙染</div>
+                            <div v-case="4">重度汙染</div>
+                            <div v-case="5">嚴重汙染</div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
